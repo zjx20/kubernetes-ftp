@@ -5,9 +5,28 @@ metadata:
   labels:
     app: my-ftp
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 21
-      nodePort: 30080
+      targetPort: 21
+      name: port-21
+    - port: 31100
+      targetPort: 31100
+      name: port-31100
+    - port: 31101
+      targetPort: 31101
+      name: port-31101
+    - port: 31102
+      targetPort: 31102
+      name: port-31102
+    - port: 31103
+      targetPort: 31103
+      name: port-31103
+    - port: 31104
+      targetPort: 31104
+      name: port-31104
+    - port: 31105
+      targetPort: 31105
+      name: port-31105
   selector:
     app: my-ftp

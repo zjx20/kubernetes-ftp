@@ -1,8 +1,44 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: v1
+kind: Service
 metadata:
-  name: ftp-http-ingress
+  name: my-ftp-ingress
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller
 spec:
-  backend:
-    serviceName: ftp-http-service
-    servicePort: 21
+  type: LoadBalancer
+  ports:
+    - name: proxied-tcp-21
+      port: 21
+      targetPort: 21
+      protocol: TCP
+    - name: proxied-tcp-31100
+      port: 31100
+      targetPort: 31100
+      protocol: TCP
+    - name: proxied-tcp-31101
+      port: 31101
+      targetPort: 31101
+      protocol: TCP
+    - name: proxied-tcp-31102
+      port: 31102
+      targetPort: 31102
+      protocol: TCP
+    - name: proxied-tcp-31103
+      port: 31103
+      targetPort: 31103
+      protocol: TCP
+    - name: proxied-tcp-31104
+      port: 31104
+      targetPort: 31104
+      protocol: TCP
+    - name: proxied-tcp-31105
+      port: 31105
+      targetPort: 31105
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller

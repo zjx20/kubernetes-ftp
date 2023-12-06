@@ -1,10 +1,13 @@
 
-apiVersion: apps/v1beta1 # for versions before 1.6.0 use extensions/v1beta1
+apiVersion: apps/v1 # for versions before 1.6.0 use extensions/v1beta1
 kind: Deployment
 metadata:
   name: my-ftp
 spec:
-  replicas: 3
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-ftp
   template:
     metadata:
       labels:
@@ -21,6 +24,18 @@ spec:
         - containerPort: 21
           protocol: TCP
           name: "ftp-server"
+        - containerPort: 31100
+          protocol: TCP
+        - containerPort: 31101
+          protocol: TCP
+        - containerPort: 31102
+          protocol: TCP
+        - containerPort: 31103
+          protocol: TCP
+        - containerPort: 31104
+          protocol: TCP
+        - containerPort: 31105
+          protocol: TCP
         volumeMounts:
         - mountPath: "/home/vsftpd"
           name: task-pv-storage
@@ -29,9 +44,17 @@ spec:
           value: "user"
         - name: FTP_PASS
           value: "pass1234"
-        #- name: PASV_ADDRESS
-        #  value: "127.0.0.1"
-        #- name: PASV_MIN_PORT
-        #  value: "21100"
-        #- name: PASV_MAX_PORT
-        #  value: "21110"
+        - name: PASV_ADDRESS
+          value: "my-ftp-service.default.svc.cluster.local"
+        - name: PASV_ADDR_RESOLVE
+          value: "YES"
+        - name: LOG_STDOUT
+          value: "YES"
+        - name: REVERSE_LOOKUP_ENABLE
+          value: "NO"
+        - name: PASV_ENABLE
+          value: "YES"
+        - name: PASV_MIN_PORT
+          value: "31100"
+        - name: PASV_MAX_PORT
+          value: "31105"
